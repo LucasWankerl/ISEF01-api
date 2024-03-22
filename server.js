@@ -14,6 +14,12 @@ const port = 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
+console.log(process.env.HOST);
+console.log(process.env.PORT);
+console.log(process.env.USER);
+console.log(process.env.PASSWORD);
+console.log(process.env.DATABASE);
+
 // Database configuration
 const connection = mysql.createConnection({
   host: process.env.HOSTDB,
