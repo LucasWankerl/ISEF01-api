@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cron = require("node-cron");
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -376,6 +377,14 @@ function handleRollbackAndError(res, connection, errorMessage, err) {
 //clean up Code executed once a day by server at midnight
 cron.schedule("0 0 * * *", () => {
   getQuestionsWithoutReaction();
+});
+
+// Serve static files from the 'build' directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Always return the main index.html, so react-router render the route in the client
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Start the server
